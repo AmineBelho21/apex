@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* Step 0: font and page basics only. The full token set (colors, radii, type scale) lands in step 1. */
+@theme inline {
+  --font-sans: var(--font-bdo-grotesk);
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #111111;
+  font-family: var(--font-sans);
+}
