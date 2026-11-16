@@ -49,7 +49,7 @@ export function MobileHeader({ className }: { className?: string }) {
 
   return (
     <div ref={rootRef} className={cn("relative", className)}>
-      <div className="flex h-[68px] items-center justify-between border-b border-line bg-white pr-3.5 pl-[18px]">
+      <div className="flex h-[68px] items-center justify-between border-b border-line pr-3.5 pl-[18px]">
         <Logo compact />
         <div className="flex items-center gap-1.5">
           <a
@@ -73,18 +73,27 @@ export function MobileHeader({ className }: { className?: string }) {
         </div>
       </div>
 
+      {/* Closed = invisible (out of the tab order and the accessibility tree), so it can fade and scale. */}
       <nav
         id={menuId}
         aria-label="Main"
-        hidden={!open}
-        className="squircle absolute inset-x-2.5 top-[76px] z-30 flex flex-col rounded-menu border border-line bg-white px-5 pt-2.5 pb-[18px] shadow-menu"
+        className={cn(
+          "squircle absolute inset-x-2.5 top-[76px] z-30 flex origin-top-right flex-col rounded-menu border border-line bg-white px-5 pt-2.5 pb-[18px] shadow-menu",
+          "transition-[opacity,scale,visibility] duration-300 ease-out-expo motion-reduce:transition-none",
+          open ? "visible scale-100 opacity-100" : "invisible scale-95 opacity-0",
+        )}
       >
-        {mainNav.map((item) => (
+        {mainNav.map((item, index) => (
           <Link
             key={item.label}
             href={item.href}
             onClick={close}
-            className="flex min-h-[52px] items-center justify-between border-b border-line text-18 text-ink"
+            style={{ transitionDelay: open ? `${60 + index * 35}ms` : "0ms" }}
+            className={cn(
+              "group flex min-h-[52px] items-center justify-between border-b border-line text-18 text-ink",
+              "transition-[opacity,translate] duration-500 ease-out-expo motion-reduce:transition-none",
+              open ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0",
+            )}
           >
             {item.label}
             <ArrowRightIcon size={16} />

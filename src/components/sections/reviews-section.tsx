@@ -9,8 +9,9 @@ import { featuredReviews } from "@/content/reviews";
 export function ReviewsSection() {
   const { reviews } = business;
   return (
-    <section id="reviews" className="px-page flex scroll-mt-4 flex-col gap-6 pt-16 lg:gap-11 lg:pt-[120px]">
+    <section id="reviews" className="px-page flex scroll-mt-20 xl:scroll-mt-24 flex-col gap-6 pt-16 lg:gap-11 lg:pt-[120px]">
       <SectionHeading
+        className="reveal"
         eyebrow={`Why ${business.city} keeps calling`}
         title={
           <>
@@ -21,7 +22,7 @@ export function ReviewsSection() {
         }
       />
       <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[340px_minmax(0,1fr)] lg:items-start lg:gap-5">
-        <div className="squircle flex flex-col gap-3.5 rounded-card-sm bg-sand px-[22px] py-[26px] lg:rounded-panel-sm lg:p-9">
+        <div className="reveal squircle flex flex-col gap-3.5 rounded-card-sm bg-sand px-[22px] py-[26px] lg:rounded-panel-sm lg:p-9">
           <span className="text-14 text-subtle">Google reviews</span>
           <span className="flex flex-wrap items-baseline gap-3">
             <span className="text-[56px] leading-none font-medium tracking-[-0.04em] lg:text-[72px]">
@@ -44,7 +45,7 @@ export function ReviewsSection() {
           {featuredReviews.map((review, index) => (
             <li
               key={index}
-              className="squircle flex flex-col gap-4 rounded-card-sm border border-line bg-white p-[22px] lg:rounded-panel-sm lg:p-7"
+              className="reveal squircle flex flex-col gap-4 rounded-card-sm border border-line bg-white p-[22px] lg:rounded-panel-sm lg:p-7"
             >
               <div className="flex items-center justify-between">
                 <Stars size={14} />

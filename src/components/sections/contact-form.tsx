@@ -17,7 +17,7 @@ export function ContactForm({ area }: { area?: string }) {
   return (
     <form
       onSubmit={(event) => event.preventDefault()}
-      className="squircle flex flex-col gap-[18px] rounded-card-sm border border-line bg-white px-[18px] py-[22px] lg:rounded-[32px] lg:p-9"
+      className="reveal squircle flex flex-col gap-[18px] rounded-card-sm border border-line bg-white px-[18px] py-[22px] lg:rounded-[32px] lg:p-9"
     >
       {area ? <input type="hidden" name="area" value={area} /> : null}
       <div className="grid gap-3.5 lg:grid-cols-2">

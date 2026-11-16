@@ -10,7 +10,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={bdoGrotesk.variable}>
+    // data-scroll-behavior: Next jumps instantly on route changes, smooth scrolling stays for in-page anchors.
+    <html lang="en" className={bdoGrotesk.variable} data-scroll-behavior="smooth">
       <body>{children}</body>
     </html>
   );

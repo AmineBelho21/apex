@@ -54,6 +54,10 @@
 
   --shadow-menu: 0 24px 60px rgb(17 17 17 / 0.14);
   --shadow-float: 0 30px 70px rgb(17 17 17 / 0.08);
+  --shadow-lift: 0 18px 40px rgb(17 17 17 / 0.08);
+
+  /* Motion: one curve for everything that moves (fast start, long soft landing). */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
@@ -76,15 +80,135 @@
   }
 }
 
+/* ---------- Motion ----------
+ * Native only: CSS transitions, scroll-driven animations and the View Transitions API.
+ * Everything that moves is switched off under prefers-reduced-motion.
+ */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+}
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+  }
+}
+@keyframes header-glass {
+  to {
+    background-color: rgb(255 255 255 / 0.72);
+    backdrop-filter: saturate(1.8) blur(18px);
+    box-shadow: 0 1px 0 var(--color-line);
+  }
+}
+
+/* Entrance on page load. Stagger with `[--i:n]` (80ms per step). */
+@utility rise {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: rise 0.9s var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 80ms + 80ms);
+  }
+}
+
+/* Fades and lifts in as it scrolls into view (scroll-driven, no JS). Browsers without
+ * scroll timelines just show the content. Uses `transform`, so hover `translate` still composes. */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+    }
+  }
+}
+
+/* Sticky header turns to frosted glass over the first 80px of scroll. */
+@utility header-glass {
+  background-color: var(--color-white);
+  @supports (animation-timeline: scroll()) {
+    animation: header-glass linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 80px;
+  }
+}
+
+/* Page transitions (React <ViewTransition> in app/(site)/template.tsx): quick fade out, soft rise in. */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-old(.page-exit) {
+  animation: 160ms ease-in both page-out;
+}
+::view-transition-new(.page-enter) {
+  animation: 420ms var(--ease-out-expo) 100ms both page-in;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+/* The header stays put while the content changes. */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
 @layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    @media (prefers-reduced-motion: no-preference) {
+      scroll-behavior: smooth;
+    }
+  }
   body {
     background: var(--color-white);
     color: var(--color-ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p,
+  blockquote {
+    text-wrap: pretty;
+  }
+  a {
+    transition: opacity 0.2s ease;
+  }
   a:hover {
     opacity: 0.85;
+  }
+  a,
+  button,
+  label {
+    touch-action: manipulation;
   }
   button {
     cursor: pointer;

@@ -17,9 +17,9 @@ function Detail({ icon, children }: { icon: ReactNode; children: ReactNode }) {
 /** "Straight to the owner": contact details on the left, the message form on the right. Last section of a page. */
 export function ContactSection({ title = "Tell me what’s going on.", area }: { title?: ReactNode; area?: string }) {
   return (
-    <section id="contact" className="px-page scroll-mt-4 py-16 lg:py-[120px]">
+    <section id="contact" className="px-page scroll-mt-20 xl:scroll-mt-24 py-16 lg:py-[120px]">
       <div className="flex flex-col gap-7 lg:grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-[72px]">
-        <div className="flex flex-col gap-[18px]">
+        <div className="reveal flex flex-col gap-[18px]">
           <SectionHeading eyebrow="Straight to the owner" title={title} className="gap-[18px]!" />
           <Lead className="max-w-[440px]">
             This goes <strong className="font-semibold text-ink">straight to my phone</strong>. I’m{" "}

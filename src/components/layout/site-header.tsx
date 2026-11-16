@@ -9,22 +9,23 @@ import { NavMenu } from "./nav-menu";
 import { TopBar } from "./top-bar";
 
 /**
- * Top bar + header. The desktop header (84px, centered nav) needs ~1100px, so it takes over
+ * Top bar + header. The header sticks to the top and turns to frosted glass once the page
+ * scrolls (header-glass); it stays still during page transitions (view-transition-name). The desktop header (84px, centered nav) needs ~1100px, so it takes over
  * from 1280px; below that the mobile header (68px, call + menu buttons) is used.
  */
 export function SiteHeader() {
   return (
     <>
       <TopBar />
-      <header className="relative z-20">
-        <div className="px-page hidden h-[84px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center bg-white xl:grid">
+      <header className="header-glass sticky top-0 z-40 [view-transition-name:site-header]">
+        <div className="px-page hidden h-[84px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center xl:grid">
           <Logo />
           <nav aria-label="Main" className="flex">
             {mainNav.map((item) =>
               item.submenu ? (
                 <NavMenu key={item.label} label={item.label} href={item.href} links={item.submenu} />
               ) : (
-                <Link key={item.label} href={item.href} className="flex h-11 items-center px-3.5 text-15 text-ink">
+                <Link key={item.label} href={item.href} className="flex h-11 items-center rounded-full px-3.5 text-15 text-ink transition-colors hover:bg-sand hover:opacity-100">
                   {item.label}
                 </Link>
               ),

@@ -46,6 +46,20 @@ The canvas only draws 1440 and 390. In between:
 - **Squircle corners** (`corner-shape: squircle`) as in the canvas; browsers without support show plain rounded corners.
 - **Additions the canvas doesn't draw**: field error state (accent border + 13px accent message), disabled buttons (50% opacity), focus ring on the newsletter pill, "Skip to content" link, and a Services dropdown in the desktop header (the canvas draws the chevron but no menu; decided 2026-11-16).
 
+## Motion (2026-11-16, user asked for a native, fluid feel)
+
+Native platform features only, no animation library:
+
+- **Smooth in-page scrolling** (`scroll-behavior`), instant jumps on route changes (`data-scroll-behavior="smooth"` on `<html>`).
+- **Page transitions**: React `<ViewTransition>` in `app/(site)/template.tsx`; old page fades out, new one rises in; the header is anchored (`view-transition-name: site-header`).
+- **Sticky header** that turns to frosted glass over the first 80px of scroll (`header-glass`, CSS scroll timeline). The canvas header is static; this is a deliberate addition.
+- **`rise`**: load entrance, staggered with `[--i:n]` (hero; the text thread plays message by message).
+- **`reveal`**: fade-and-lift as a block scrolls into view (CSS `animation-timeline: view()`, no JS). Browsers without scroll timelines show the content as is.
+- **Feedback**: buttons and chips press down (`active:scale`), cards lift on hover, arrows nudge forward (`group-hover`), menus fade and scale from their anchor with staggered links, FAQ rows open by animating their height (grid `0fr → 1fr`).
+- One easing everywhere: `ease-out-expo` (`cubic-bezier(0.16, 1, 0.3, 1)`).
+- Everything that moves is off under `prefers-reduced-motion`.
+- Typography: `text-wrap: balance` on headings, `pretty` on paragraphs.
+
 ## Code conventions
 
 - Tokens only: the default Tailwind palette and type scale are switched off. Sizes are named in px (`text-15`, `text-52`).

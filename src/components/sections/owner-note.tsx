@@ -11,7 +11,7 @@ const stats = [
 /** Dark panel: the owner's promise, a photo slot and three figures. */
 export function OwnerNote() {
   return (
-    <Panel tone="ink" className="mt-14 px-5 py-10 lg:mt-[120px] lg:py-[88px]">
+    <Panel tone="ink" className="reveal mt-14 px-5 py-10 lg:mt-[120px] lg:py-[88px]">
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:gap-20">
         <figure className="flex flex-col gap-[18px] lg:gap-6">
           <Eyebrow tone="ink">A note from the owner</Eyebrow>

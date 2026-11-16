@@ -62,7 +62,7 @@ function AreaMap() {
 /** Sand panel: area pills by region, and the illustrative map. */
 export function AreasSection() {
   return (
-    <Panel id="areas" className="mt-14 scroll-mt-4 px-[18px] py-10 lg:mt-[120px] lg:py-[88px]">
+    <Panel id="areas" className="reveal mt-14 scroll-mt-20 xl:scroll-mt-24 px-[18px] py-10 lg:mt-[120px] lg:py-[88px]">
       <div className="flex flex-col gap-7 lg:grid lg:grid-cols-[minmax(0,1fr)_560px] lg:items-center lg:gap-16">
         <div className="flex flex-col gap-[22px]">
           <SectionHeading eyebrow="Service areas" title={`Across ${business.serviceArea}.`} className="gap-[22px]!" />

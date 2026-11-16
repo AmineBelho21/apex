@@ -34,8 +34,12 @@ export const MessageIcon = (p: IconProps) => (
   </StrokeIcon>
 );
 
-export const ArrowRightIcon = (p: IconProps) => (
-  <StrokeIcon {...p}>
+/** Nudges forward when its `group` parent (button, card, link) is hovered. */
+export const ArrowRightIcon = ({ className, ...p }: IconProps) => (
+  <StrokeIcon
+    {...p}
+    className={`transition-transform duration-300 ease-out-expo group-hover:translate-x-[3px] ${className ?? ""}`}
+  >
     <path d="M5 12h14M13 6l6 6-6 6" />
   </StrokeIcon>
 );

@@ -19,7 +19,7 @@ export function ProofStrip() {
         {proofs.map((proof) => (
           <div
             key={proof.title}
-            className="flex flex-col gap-1.5 border-t border-line py-4 lg:border-t-0 lg:border-l lg:px-6 lg:py-0"
+            className="reveal flex flex-col gap-1.5 border-t border-line py-4 lg:border-t-0 lg:border-l lg:px-6 lg:py-0"
           >
             <span
               className={cn(

@@ -24,9 +24,9 @@ export function FaqSection({
   return (
     <section
       id="faq"
-      className="px-page flex scroll-mt-4 flex-col gap-6 pt-16 lg:grid lg:grid-cols-[380px_minmax(0,1fr)] lg:gap-20 lg:pt-[120px]"
+      className="px-page flex scroll-mt-20 xl:scroll-mt-24 flex-col gap-6 pt-16 lg:grid lg:grid-cols-[380px_minmax(0,1fr)] lg:gap-20 lg:pt-[120px]"
     >
-      <div className="flex flex-col gap-4">
+      <div className="reveal flex flex-col gap-4">
         <SectionHeading eyebrow="FAQ" title={title} />
         <Lead className="max-w-[620px]">Still not sure? Text {business.phone.display}.</Lead>
         {showAllLink ? (
@@ -35,7 +35,7 @@ export function FaqSection({
           </Link>
         ) : null}
       </div>
-      <Accordion items={items.map(({ question, answer }) => ({ question, answer }))} />
+      <Accordion className="reveal" items={items.map(({ question, answer }) => ({ question, answer }))} />
     </section>
   );
 }

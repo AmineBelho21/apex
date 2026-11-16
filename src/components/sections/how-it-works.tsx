@@ -27,8 +27,8 @@ const steps = [
 /** Six numbered steps on sand cards, then the text / call CTA. */
 export function HowItWorks() {
   return (
-    <section id="how" className="px-page flex scroll-mt-4 flex-col gap-6 pt-16 lg:gap-11 lg:pt-[120px]">
-      <div className="flex flex-col gap-4">
+    <section id="how" className="px-page flex scroll-mt-20 xl:scroll-mt-24 flex-col gap-6 pt-16 lg:gap-11 lg:pt-[120px]">
+      <div className="reveal flex flex-col gap-4">
         <SectionHeading eyebrow="How it works" title="The real way a repair goes." />
         <Lead className="max-w-[620px]">
           No call centers, no run-around. The same steps, every job, from the first text to the moment it’s fixed.
@@ -38,7 +38,7 @@ export function HowItWorks() {
         {steps.map((step, index) => (
           <li
             key={step.title}
-            className="squircle flex flex-col gap-3 rounded-tile bg-sand p-[22px] lg:rounded-panel-sm lg:p-[30px]"
+            className="reveal squircle flex flex-col gap-3 rounded-tile bg-sand p-[22px] lg:rounded-panel-sm lg:p-[30px]"
           >
             <span
               aria-hidden="true"
