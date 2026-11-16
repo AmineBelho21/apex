@@ -20,12 +20,28 @@ export function ServicesGrid({
     </>
   ),
   lead = "The five that matter most. Every major brand, parts on the van, and the price before any work.",
+  asideCard,
+  footer,
 }: {
   id?: string;
   eyebrow?: ReactNode;
   title?: ReactNode;
   lead?: ReactNode;
+  /** Replaces the dark "I keep it to five" card (area pages: "In <area> this week?"). */
+  asideCard?: { title: ReactNode; text: ReactNode; action: ReactNode };
+  /** Row under the grid (area pages: "Also nearby"). */
+  footer?: ReactNode;
 }) {
+  const card = asideCard ?? {
+    title: "I keep it to five, so I do each one right.",
+    text: "No microwaves or small appliances. Not sure about yours? Ask, and I’ll point you to someone I trust.",
+    action: (
+      <ButtonLink href={telHref} variant="secondary" fullWidth>
+        <PhoneIcon size={18} />
+        Call {business.phone.display}
+      </ButtonLink>
+    ),
+  };
   return (
     <section id={id} className="px-page flex scroll-mt-20 xl:scroll-mt-24 flex-col gap-6 pt-16 lg:gap-11 lg:pt-[120px]">
       <div className="reveal flex flex-col gap-3.5 lg:flex-row lg:items-end lg:justify-between">
@@ -38,6 +54,7 @@ export function ServicesGrid({
           <div key={service.key} className="reveal flex" style={stagger(index)}>
           <Link
             href={service.href}
+            transitionTypes={["nav-forward"]}
             className="lift group squircle flex w-full flex-col gap-3.5 rounded-card-sm border border-line bg-white p-5 text-ink lg:gap-[18px] lg:rounded-card lg:p-[26px]"
           >
             <div className="flex items-start justify-between">
@@ -61,20 +78,12 @@ export function ServicesGrid({
           </div>
         ))}
         <div style={stagger(services.length)} className="reveal squircle flex flex-col gap-4 rounded-card-sm bg-ink p-[22px] text-white lg:rounded-card lg:p-[30px]">
-          <p className="text-22 leading-[1.15] font-medium tracking-[-0.02em] lg:text-26">
-            I keep it to five, so I do each one right.
-          </p>
-          <p className="text-15 leading-normal text-on-ink-muted">
-            No microwaves or small appliances. Not sure about yours? Ask, and I’ll point you to someone I trust.
-          </p>
-          <div className="mt-auto">
-            <ButtonLink href={telHref} variant="secondary" fullWidth>
-              <PhoneIcon size={18} />
-              Call {business.phone.display}
-            </ButtonLink>
-          </div>
+          <p className="text-22 leading-[1.15] font-medium tracking-[-0.02em] lg:text-26">{card.title}</p>
+          <p className="text-15 leading-normal text-on-ink-muted">{card.text}</p>
+          <div className="mt-auto">{card.action}</div>
         </div>
       </div>
+      {footer}
     </section>
   );
 }

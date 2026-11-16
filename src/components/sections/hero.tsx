@@ -5,83 +5,9 @@ import { Panel } from "@/components/ui/panel";
 import { Stars } from "@/components/ui/stars";
 import { business, smsHref, telHref } from "@/content/business";
 import { bookHref } from "@/content/navigation";
-import { cn } from "@/lib/cn";
-import { stagger } from "@/lib/motion";
+import { TextThread } from "./text-thread";
 
-const { ownerFirstName, pricing, warranty } = business;
-
-type Message = { from: "you" | "owner"; text: string; time: string } | { divider: string };
-
-/** The sample text thread in the hero card (copy from the canvas; prices are placeholders). */
-const thread: Message[] = [
-  { from: "you", text: "Water all over the kitchen floor from the fridge.", time: "8:12 AM" },
-  { from: "owner", text: `I can be there tomorrow. ${pricing.diagnostic} to diagnose, and it comes off the repair.`, time: "8:14 AM" },
-  { from: "you", text: "What time?", time: "8:15 AM" },
-  { from: "owner", text: "11:30 to 1:30. I’ll text before I head over.", time: "8:16 AM" },
-  { divider: "Next day" },
-  {
-    from: "owner",
-    text: `Defrost drain is blocked, nothing is broken. [$295 to $375], backed ${warranty.span}. Go ahead?`,
-    time: "12:05 PM",
-  },
-  { from: "you", text: "Yes, go for it.", time: "12:06 PM" },
-  { from: "owner", text: "Fixed. Floor’s dry.", time: "1:20 PM" },
-];
-
-function TextThread() {
-  return (
-    <figure
-      aria-label="Example text conversation with the owner"
-      className="squircle flex flex-col overflow-hidden rounded-panel-sm border border-line bg-white shadow-float lg:rounded-[32px]"
-    >
-      <div className="flex items-center gap-3 border-b border-line px-4 py-3.5 lg:px-5 lg:py-4">
-        <span className="flex size-[38px] items-center justify-center rounded-full bg-accent text-15 font-medium text-white">
-          {business.ownerInitial}
-        </span>
-        <span className="flex flex-col gap-0.5">
-          <span className="text-15 font-medium">{ownerFirstName} · the owner</span>
-          <span className="text-12 text-subtle">Usually replies within the hour</span>
-        </span>
-      </div>
-      <div className="flex flex-col gap-2 px-3.5 pt-3.5 pb-[18px] lg:gap-2.5 lg:px-5 lg:pt-[18px] lg:pb-[22px]">
-        {thread.map((message, i) => {
-          // Messages arrive in order, 40ms apart (capped at 300ms by the `enter` utility).
-          const delay = stagger(i, "--i");
-          if ("divider" in message) {
-            return (
-              <span key={i} style={delay} className="enter self-center py-1 text-12 text-subtle">
-                {message.divider}
-              </span>
-            );
-          }
-          const mine = message.from === "you";
-          return (
-            <div
-              key={i}
-              style={delay}
-              className={cn(
-                "enter flex max-w-[82%] flex-col gap-1",
-                mine ? "items-end self-end" : "items-start self-start",
-              )}
-            >
-              <span
-                className={cn(
-                  "rounded-[20px] px-3.5 py-2.5 text-14 leading-[1.4] lg:px-[15px] lg:py-[11px] lg:text-15",
-                  mine ? "rounded-br-md bg-ink text-white" : "rounded-bl-md bg-sand text-ink",
-                )}
-              >
-                {message.text}
-              </span>
-              <span className="text-11 text-subtle">
-                {mine ? "You" : ownerFirstName} · {message.time}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    </figure>
-  );
-}
+const { pricing, warranty } = business;
 
 function PromiseTag({ children }: { children: React.ReactNode }) {
   return (
@@ -132,7 +58,7 @@ export function Hero() {
           </a>
         </div>
         <div className="enter flex flex-col gap-3.5 [--i:2]">
-          <TextThread />
+          <TextThread animate />
           <div className="flex flex-wrap gap-2">
             <PromiseTag>{pricing.diagnostic} diagnostic, applied to the repair</PromiseTag>
             <PromiseTag>{warranty.label} warranty on every repair</PromiseTag>

@@ -15,11 +15,12 @@ export function FaqSection({
       answered straight.
     </>
   ),
-  showAllLink = true,
+  showIntro = true,
 }: {
   items: FaqItem[];
   title?: ReactNode;
-  showAllLink?: boolean;
+  /** Home only: "Still not sure? Text …" and the link to the FAQ page. */
+  showIntro?: boolean;
 }) {
   return (
     <section
@@ -28,11 +29,13 @@ export function FaqSection({
     >
       <div className="reveal flex flex-col gap-4">
         <SectionHeading eyebrow="FAQ" title={title} />
-        <Lead className="max-w-[620px]">Still not sure? Text {business.phone.display}.</Lead>
-        {showAllLink ? (
-          <Link href="/faq" className="flex min-h-11 items-center self-start text-15 font-medium underline">
-            All the questions people ask
-          </Link>
+        {showIntro ? (
+          <>
+            <Lead className="max-w-[620px]">Still not sure? Text {business.phone.display}.</Lead>
+            <Link href="/faq" className="flex min-h-11 items-center self-start text-15 font-medium underline">
+              All the questions people ask
+            </Link>
+          </>
         ) : null}
       </div>
       <Accordion className="reveal" items={items.map(({ question, answer }) => ({ question, answer }))} />

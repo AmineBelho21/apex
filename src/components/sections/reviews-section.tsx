@@ -4,11 +4,16 @@ import { SectionHeading } from "@/components/ui/heading";
 import { Stars } from "@/components/ui/stars";
 import { business } from "@/content/business";
 import { featuredReviews } from "@/content/reviews";
+import { cn } from "@/lib/cn";
 import { stagger } from "@/lib/motion";
 
-/** Google rating card + four quoted reviews. */
-export function ReviewsSection() {
+/**
+ * Google rating card + quoted reviews. `count` 4 (home): 2×2 grid beside the card;
+ * 2 (service, area, brand pages): one row of three columns.
+ */
+export function ReviewsSection({ count = 4 }: { count?: 2 | 4 }) {
   const { reviews } = business;
+  const row = count === 2;
   return (
     <section id="reviews" className="px-page flex scroll-mt-20 xl:scroll-mt-24 flex-col gap-6 pt-16 lg:gap-11 lg:pt-[120px]">
       <SectionHeading
@@ -22,7 +27,12 @@ export function ReviewsSection() {
           </>
         }
       />
-      <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[340px_minmax(0,1fr)] lg:items-start lg:gap-5">
+      <div
+        className={cn(
+          "flex flex-col gap-3 lg:grid lg:items-start lg:gap-5",
+          row ? "lg:grid-cols-[340px_minmax(0,1fr)_minmax(0,1fr)]" : "lg:grid-cols-[340px_minmax(0,1fr)]",
+        )}
+      >
         <div className="reveal squircle flex flex-col gap-3.5 rounded-card-sm bg-sand px-[22px] py-[26px] lg:rounded-panel-sm lg:p-9">
           <span className="text-14 text-subtle">Google reviews</span>
           <span className="flex flex-wrap items-baseline gap-3">
@@ -42,8 +52,8 @@ export function ReviewsSection() {
             </a>
           </div>
         </div>
-        <ul className="grid gap-3 lg:grid-cols-2 lg:gap-5">
-          {featuredReviews.map((review, index) => (
+        <ul className={cn("grid gap-3 lg:gap-5", row ? "lg:col-span-2 lg:grid-cols-2" : "lg:grid-cols-2")}>
+          {featuredReviews.slice(0, count).map((review, index) => (
             <li
               key={index}
               style={stagger(index + 1)}

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { MotionRuntime } from "@/components/motion-runtime";
 import { business } from "@/content/business";
+import { siteUrl } from "@/lib/seo";
 import { bdoGrotesk } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: business.legalName,
+  metadataBase: new URL(siteUrl),
+  title: { default: business.legalName, template: `%s · ${business.legalName}` },
   description: "Owner-operated appliance repair. Flat diagnostic credited to the repair, 90-day warranty.",
 };
 

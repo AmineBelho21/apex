@@ -1,6 +1,6 @@
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { SmartLink } from "./smart-link";
+import Link from "next/link";
 
 /**
  * Selectable pill (radio or checkbox inside a label). Selected = 2px ink border and 500 weight,
@@ -57,17 +57,21 @@ export function ChipGroup({
 export function PillLink({
   href,
   muted,
+  forward,
   className,
   children,
 }: {
   href: string;
   muted?: boolean;
+  /** Going deeper (an area page): forward page transition. */
+  forward?: boolean;
   className?: string;
   children: ReactNode;
 }) {
   return (
-    <SmartLink
+    <Link
       href={href}
+      transitionTypes={forward ? ["nav-forward"] : undefined}
       className={cn(
         "inline-flex h-9 items-center rounded-full border bg-white px-3 text-14 transition-[scale] duration-(--dur-fast) ease-out hover:border-ink hover:opacity-100 active:scale-[0.97] active:duration-(--dur-press)",
         muted ? "border-transparent text-muted" : "border-line text-ink",
@@ -75,6 +79,6 @@ export function PillLink({
       )}
     >
       {children}
-    </SmartLink>
+    </Link>
   );
 }

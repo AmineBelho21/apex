@@ -59,6 +59,18 @@ function AreaMap() {
   );
 }
 
+/** The map in its white card with the caption (home areas section, area page hero). */
+export function AreaMapCard() {
+  return (
+    <div className="squircle flex w-full flex-col gap-2.5 rounded-card-sm border border-line bg-white p-3 lg:rounded-[32px] lg:p-5">
+      <AreaMap />
+      <p className="px-1.5 pb-1 text-13 text-subtle">
+        Same-week across {business.serviceArea}, often same-day. Map is illustrative.
+      </p>
+    </div>
+  );
+}
+
 /** Sand panel: area pills by region, and the illustrative map. */
 export function AreasSection() {
   return (
@@ -77,7 +89,9 @@ export function AreasSection() {
                 {group.areas.map((area) => (
                   <li key={area.name}>
                     {area.slug ? (
-                      <PillLink href={areaHref(area.slug)}>{area.name}</PillLink>
+                      <PillLink href={areaHref(area.slug)} forward>
+                        {area.name}
+                      </PillLink>
                     ) : (
                       <span className="inline-flex h-9 items-center rounded-full border border-transparent bg-white px-3 text-14 text-muted">
                         {area.name}
@@ -89,12 +103,7 @@ export function AreasSection() {
             </div>
           ))}
         </div>
-        <div className="squircle flex w-full flex-col gap-2.5 rounded-card-sm border border-line bg-white p-3 lg:rounded-[32px] lg:p-5">
-          <AreaMap />
-          <p className="px-1.5 pb-1 text-13 text-subtle">
-            Same-week across {business.serviceArea}, often same-day. Map is illustrative.
-          </p>
-        </div>
+        <AreaMapCard />
       </div>
     </Panel>
   );

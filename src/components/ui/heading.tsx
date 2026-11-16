@@ -59,18 +59,20 @@ export function Lead({ children, className }: { children: ReactNode; className?:
 /** Eyebrow + title, stacked with a 16px gap, as at the top of every section. */
 export function SectionHeading({
   eyebrow,
+  eyebrowTone,
   title,
   as,
   className,
 }: {
   eyebrow: ReactNode;
+  eyebrowTone?: "light" | "ink";
   title: ReactNode;
   as?: "h1" | "h2";
   className?: string;
 }) {
   return (
     <div className={cn("flex flex-col gap-4", className)}>
-      <Eyebrow>{eyebrow}</Eyebrow>
+      <Eyebrow tone={eyebrowTone}>{eyebrow}</Eyebrow>
       <SectionTitle as={as}>{title}</SectionTitle>
     </div>
   );

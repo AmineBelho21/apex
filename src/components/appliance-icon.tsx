@@ -56,10 +56,13 @@ const paths: Record<ApplianceKey, React.ReactNode> = {
 export function ApplianceIcon({
   appliance,
   size = 22,
+  strokeWidth = 1.6,
   className,
 }: {
   appliance: ApplianceKey;
   size?: number;
+  /** 1.6 at icon sizes; the large hero drawings use 1.1. */
+  strokeWidth?: number;
   className?: string;
 }) {
   return (
@@ -69,7 +72,7 @@ export function ApplianceIcon({
       viewBox="0 0 64 64"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.6}
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
