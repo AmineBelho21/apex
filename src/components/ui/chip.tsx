@@ -18,7 +18,7 @@ export function ChoiceChip({
   return (
     <label
       className={cn(
-        "inline-flex cursor-pointer items-center rounded-full border border-line bg-white text-ink transition-[border-color,box-shadow,scale] duration-300 ease-out-expo hover:border-[#D8D2C8] active:scale-[0.97]",
+        "inline-flex cursor-pointer items-center rounded-full border border-line bg-white text-ink transition-[scale] duration-(--dur-fast) ease-out hover:border-[#D8D2C8] active:scale-[0.97] active:duration-(--dur-press)",
         "has-checked:border-ink has-checked:font-medium has-checked:shadow-[inset_0_0_0_1px_var(--color-ink)]",
         "has-focus-visible:outline-2 has-focus-visible:outline-offset-3 has-focus-visible:outline-accent",
         size === "sm" ? "h-11 gap-2 px-3.5 text-14" : "min-h-[52px] px-5 text-15",
@@ -69,7 +69,7 @@ export function PillLink({
     <SmartLink
       href={href}
       className={cn(
-        "inline-flex h-9 items-center rounded-full border bg-white px-3 text-14 transition-[border-color,scale] duration-300 ease-out-expo hover:border-ink hover:opacity-100 active:scale-[0.97]",
+        "inline-flex h-9 items-center rounded-full border bg-white px-3 text-14 transition-[scale] duration-(--dur-fast) ease-out hover:border-ink hover:opacity-100 active:scale-[0.97] active:duration-(--dur-press)",
         muted ? "border-transparent text-muted" : "border-line text-ink",
         className,
       )}

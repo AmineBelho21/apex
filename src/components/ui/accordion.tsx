@@ -13,7 +13,7 @@ function ToggleIcon({ open }: { open: boolean }) {
       <path
         d="M12 5v14"
         className={cn(
-          "origin-center transition-[rotate,opacity] duration-300 ease-out-expo motion-reduce:transition-none",
+          "origin-center transition-[rotate,opacity] duration-(--dur-base) ease-out",
           open ? "rotate-90 opacity-0" : "rotate-0 opacity-100",
         )}
       />
@@ -23,8 +23,8 @@ function ToggleIcon({ open }: { open: boolean }) {
 
 /**
  * FAQ list from the canvas: hairline rows, question + round sand toggle, first item open.
- * Opening animates the row height (grid 0fr → 1fr). Closed answers stay in the HTML (inert),
- * so search engines still read them.
+ * Height is never animated (docs/MOTION.md §7): the row opens at once and the answer fades in and
+ * rises 8px (@starting-style). Closed answers stay in the HTML (`hidden`), so search engines read them.
  */
 export function Accordion({
   items,
@@ -66,25 +66,14 @@ export function Accordion({
                 <span className="text-17 leading-[1.3] font-medium tracking-[-0.01em] lg:text-20">
                   {item.question}
                 </span>
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-sand text-ink transition-colors duration-300 group-hover:bg-line">
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-sand text-ink transition-[scale] duration-(--dur-fast) ease-out group-active:scale-90 group-active:duration-(--dur-press)">
                   <ToggleIcon open={isOpen} />
                 </span>
               </button>
             </h3>
-            <div
-              id={panelId}
-              role="region"
-              aria-labelledby={buttonId}
-              inert={!isOpen}
-              className={cn(
-                "grid transition-[grid-template-rows,opacity] duration-500 ease-out-expo motion-reduce:transition-none",
-                isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
-              )}
-            >
-              <div className="overflow-hidden">
-                <div className="pb-5 text-16 leading-[1.6] text-muted lg:pr-[60px] lg:pb-6 lg:text-17">
-                  {item.answer}
-                </div>
+            <div id={panelId} role="region" aria-labelledby={buttonId} hidden={!isOpen}>
+              <div className="pb-5 text-16 leading-[1.6] text-muted transition-[opacity,translate] duration-(--dur-base) ease-out starting:translate-y-2 starting:opacity-0 lg:pr-[60px] lg:pb-6 lg:text-17">
+                {item.answer}
               </div>
             </div>
           </div>

@@ -52,12 +52,26 @@
   --radius-footer: 36px;
   --radius-panel: 40px;
 
-  --shadow-menu: 0 24px 60px rgb(17 17 17 / 0.14);
-  --shadow-float: 0 30px 70px rgb(17 17 17 / 0.08);
-  --shadow-lift: 0 18px 40px rgb(17 17 17 / 0.08);
+  /* Soft layered shadows: several low-opacity, large-blur layers, never one harsh one. */
+  --shadow-menu: 0 1px 2px rgb(17 17 17 / 0.04), 0 8px 24px rgb(17 17 17 / 0.08), 0 24px 60px rgb(17 17 17 / 0.1);
+  --shadow-float: 0 1px 2px rgb(17 17 17 / 0.03), 0 10px 30px rgb(17 17 17 / 0.05), 0 30px 70px rgb(17 17 17 / 0.06);
+  --shadow-lift: 0 1px 2px rgb(17 17 17 / 0.04), 0 8px 20px rgb(17 17 17 / 0.06), 0 18px 40px rgb(17 17 17 / 0.06);
 
-  /* Motion: one curve for everything that moves (fast start, long soft landing). */
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Motion curves (docs/MOTION.md). `ease-out`, `ease-in-out`, `ease-ios`, `ease-spring` utilities. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
+  /* Damped spring, bounce 0.1 (damping ratio 0.9), sampled as CSS linear(). Use with --dur-spring. */
+  --ease-spring: linear(0, 0.01, 0.0365, 0.0752, 0.1225, 0.1755, 0.2319, 0.2898, 0.3478, 0.4046, 0.4596, 0.512, 0.5616, 0.6079, 0.6509, 0.6906, 0.7269, 0.7599, 0.7898, 0.8168, 0.8409, 0.8625, 0.8817, 0.8986, 0.9135, 0.9266, 0.9381, 0.948, 0.9567, 0.9641, 0.9705, 0.976, 0.9806, 0.9845, 0.9878, 0.9906, 0.9929, 0.9948, 0.9964, 0.9976, 1);
+}
+
+/* Motion durations (docs/MOTION.md). Use as `duration-(--dur-base)`. */
+:root {
+  --dur-press: 80ms;
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-spring: 400ms;
+  --dur-slow: 450ms;
 }
 
 @theme inline {
@@ -66,7 +80,9 @@
 
 /* The canvas draws panels and cards with squircle corners. Browsers without support keep plain rounded corners. */
 @utility squircle {
-  corner-shape: squircle;
+  @supports (corner-shape: squircle) {
+    corner-shape: squircle;
+  }
 }
 
 /*
@@ -81,80 +97,149 @@
 }
 
 /* ---------- Motion ----------
- * Native only: CSS transitions, scroll-driven animations and the View Transitions API.
- * Everything that moves is switched off under prefers-reduced-motion.
+ * Rules: docs/MOTION.md. Native only (CSS transitions, @starting-style, View Transitions API).
+ * Only transform and opacity move; state changes use transitions so they can be interrupted.
  */
 
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-    filter: blur(6px);
-  }
+/* Translucent material for the sticky header and popovers. */
+@utility glass {
+  background-color: rgb(255 255 255 / 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-color: rgb(0 0 0 / 0.06);
 }
-@keyframes reveal {
-  from {
+
+/*
+ * Entrance when an element first appears (page load or client navigation): fades in and rises 12px.
+ * Uses @starting-style + transition, not keyframes. Stagger with `[--i:n]`: 40ms per step, capped at 300ms.
+ */
+@utility enter {
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  transition-delay: min(calc(var(--i, 0) * 40ms), 300ms);
+  @starting-style {
     opacity: 0;
-    transform: translateY(40px) scale(0.97);
-  }
-}
-@keyframes header-glass {
-  to {
-    background-color: rgb(255 255 255 / 0.72);
-    backdrop-filter: saturate(1.8) blur(18px);
-    box-shadow: 0 1px 0 var(--color-line);
+    transform: translateY(12px);
   }
 }
 
-/* Entrance on page load. Stagger with `[--i:n]` (80ms per step). */
-@utility rise {
-  @media (prefers-reduced-motion: no-preference) {
-    animation: rise 0.9s var(--ease-out-expo) both;
-    animation-delay: calc(var(--i, 0) * 80ms + 80ms);
-  }
-}
-
-/* Fades and lifts in as it scrolls into view (scroll-driven, no JS). Browsers without
- * scroll timelines just show the content. Uses `transform`, so hover `translate` still composes. */
+/*
+ * Scroll reveal: fades in and rises 16px the first time the block enters the viewport, then stays.
+ * components/motion-runtime.tsx marks it `data-revealed`. Nothing is hidden until that runtime is
+ * running (html[data-motion]), so content never depends on JavaScript. Stagger with `--stagger`
+ * (40ms per item, capped at 300ms). Put hover effects on a child, not on the .reveal element.
+ */
 @utility reveal {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      animation: reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 90%;
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  transition-delay: min(calc(var(--stagger, 0) * 40ms), 300ms);
+  html[data-motion] &:not([data-revealed]) {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+/* Nav link / menu trigger: a sand pill fades in behind it on hover (opacity only). */
+@utility nav-pill {
+  position: relative;
+  isolation: isolate;
+  border-radius: 9999px;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: var(--color-sand);
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+  &[aria-expanded="true"]::before {
+    opacity: 1;
+  }
+  @media (hover: hover) {
+    &:hover {
+      opacity: 1;
+    }
+    &:hover::before {
+      opacity: 1;
     }
   }
 }
 
-/* Sticky header turns to frosted glass over the first 80px of scroll. */
-@utility header-glass {
-  background-color: var(--color-white);
-  @supports (animation-timeline: scroll()) {
-    animation: header-glass linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 80px;
+/*
+ * Card that lifts 4px on hover; its shadow is a separate layer whose opacity fades in.
+ * Pressing scales it down slightly, fast. Interruptible (transitions on translate/scale/opacity).
+ */
+@utility lift {
+  position: relative;
+  transition:
+    translate var(--dur-base) var(--ease-out),
+    scale var(--dur-fast) var(--ease-out);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    box-shadow: var(--shadow-lift);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-base) var(--ease-out);
+  }
+  @media (hover: hover) {
+    &:hover {
+      translate: 0 -4px;
+      opacity: 1;
+    }
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+  &:active {
+    scale: 0.985;
+    transition-duration: var(--dur-base), var(--dur-press);
   }
 }
 
-/* Page transitions (React <ViewTransition> in app/(site)/template.tsx): quick fade out, soft rise in. */
+/* Page transitions (React <ViewTransition> in app/(site)/template.tsx). Exit ≈ 70% of the enter. */
 ::view-transition {
   pointer-events: none;
 }
-::view-transition-old(.page-exit) {
-  animation: 160ms ease-in both page-out;
+::view-transition-old(.page-exit),
+::view-transition-old(.nav-forward),
+::view-transition-old(.nav-back) {
+  animation: 300ms var(--ease-in-out) both page-out;
 }
 ::view-transition-new(.page-enter) {
-  animation: 420ms var(--ease-out-expo) 100ms both page-in;
+  --page-from: 0 12px;
+  animation: var(--dur-slow) var(--ease-out) both page-in;
+}
+/* Direction follows hierarchy: deeper = in from the right, back up = in from the left. */
+::view-transition-old(.nav-forward) {
+  --page-to: -24px 0;
+}
+::view-transition-new(.nav-forward) {
+  --page-from: 24px 0;
+  animation: var(--dur-slow) var(--ease-out) both page-in;
+}
+::view-transition-old(.nav-back) {
+  --page-to: 24px 0;
+}
+::view-transition-new(.nav-back) {
+  --page-from: -24px 0;
+  animation: var(--dur-slow) var(--ease-out) both page-in;
 }
 @keyframes page-out {
   to {
     opacity: 0;
+    translate: var(--page-to, 0 0);
   }
 }
 @keyframes page-in {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    translate: var(--page-from, 0 0);
   }
 }
 /* The header stays put while the content changes. */
@@ -168,12 +253,20 @@
 ::view-transition-new(site-header) {
   animation: none;
 }
+
+/* Reduced motion: everything resolves instantly (docs/MOTION.md §12). */
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after,
+  ::view-transition-group(*),
   ::view-transition-old(*),
-  ::view-transition-new(*),
-  ::view-transition-group(*) {
-    animation-duration: 0s !important;
-    animation-delay: 0s !important;
+  ::view-transition-new(*) {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
@@ -200,10 +293,17 @@
     text-wrap: pretty;
   }
   a {
-    transition: opacity 0.2s ease;
+    transition: opacity var(--dur-fast) var(--ease-out);
   }
-  a:hover {
-    opacity: 0.85;
+  @media (hover: hover) {
+    a:hover {
+      opacity: 0.85;
+    }
+  }
+  /* Press feedback for plain links, in under 100ms (docs/MOTION.md §5). */
+  a:active {
+    opacity: 0.7;
+    transition-duration: var(--dur-press);
   }
   a,
   button,

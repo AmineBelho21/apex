@@ -45,16 +45,16 @@ export function NavMenu({ label, href, links }: { label: string; href: string; l
         aria-expanded={open}
         aria-controls={menuId}
         onClick={() => setOpen((value) => !value)}
-        className="flex h-11 items-center gap-1 rounded-full px-3.5 text-15 text-ink transition-colors hover:bg-sand"
+        className="nav-pill flex h-11 items-center gap-1 px-3.5 text-15 text-ink"
       >
         {label}
-        <ChevronDownIcon size={14} className={cn("transition-transform duration-300 ease-out-expo", open && "rotate-180")} />
+        <ChevronDownIcon size={14} className={cn("transition-[rotate] duration-(--dur-base) ease-out", open && "rotate-180")} />
       </button>
       <div
         id={menuId}
         className={cn(
-          "squircle absolute top-full left-0 z-30 mt-2 flex w-[260px] origin-top-left flex-col rounded-menu border border-line bg-white px-5 pt-1.5 pb-3 shadow-menu",
-          "transition-[opacity,scale,visibility] duration-300 ease-out-expo motion-reduce:transition-none",
+          "glass squircle absolute top-full left-0 z-30 mt-2 flex w-[260px] origin-top-left flex-col rounded-menu border px-5 pt-1.5 pb-3 shadow-menu",
+          "transition-[opacity,scale,visibility] [transition-duration:var(--dur-base),var(--dur-spring),var(--dur-base)] [transition-timing-function:var(--ease-out),var(--ease-spring),var(--ease-out)]",
           open ? "visible scale-100 opacity-100" : "invisible scale-95 opacity-0",
         )}
       >

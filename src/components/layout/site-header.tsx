@@ -9,15 +9,20 @@ import { NavMenu } from "./nav-menu";
 import { TopBar } from "./top-bar";
 
 /**
- * Top bar + header. The header sticks to the top and turns to frosted glass once the page
- * scrolls (header-glass); it stays still during page transitions (view-transition-name). The desktop header (84px, centered nav) needs ~1100px, so it takes over
- * from 1280px; below that the mobile header (68px, call + menu buttons) is used.
+ * Top bar + header. The desktop header (84px, centered nav) needs ~1100px, so it takes over from
+ * 1280px; below that the mobile header (68px, call + menu buttons) is used.
+ * The header sticks to the top. Once the page is scrolled (html[data-scrolled], set by MotionRuntime)
+ * a glass layer with a hairline fades in behind it (opacity only). It stays still during page transitions.
  */
 export function SiteHeader() {
   return (
     <>
       <TopBar />
-      <header className="header-glass sticky top-0 z-40 [view-transition-name:site-header]">
+      <header className="group/header sticky top-0 z-40 isolate [view-transition-name:site-header]">
+        <div
+          aria-hidden="true"
+          className="glass absolute inset-0 -z-10 border-b opacity-0 transition-opacity duration-(--dur-base) ease-out in-data-scrolled:opacity-100"
+        />
         <div className="px-page hidden h-[84px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center xl:grid">
           <Logo />
           <nav aria-label="Main" className="flex">
@@ -25,7 +30,7 @@ export function SiteHeader() {
               item.submenu ? (
                 <NavMenu key={item.label} label={item.label} href={item.href} links={item.submenu} />
               ) : (
-                <Link key={item.label} href={item.href} className="flex h-11 items-center rounded-full px-3.5 text-15 text-ink transition-colors hover:bg-sand hover:opacity-100">
+                <Link key={item.label} href={item.href} className="nav-pill flex h-11 items-center px-3.5 text-15 text-ink">
                   {item.label}
                 </Link>
               ),

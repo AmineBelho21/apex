@@ -10,9 +10,12 @@ import { SmartLink } from "./smart-link";
 export type ButtonVariant = "primary" | "secondary" | "outline" | "soft";
 export type ButtonSize = "sm" | "md" | "lg" | "xl";
 
-/* `group` lets icons react to the button's hover (the arrow nudges forward); pressing scales it down like a native control. */
+/*
+ * `group` lets icons react to the button's hover (the arrow nudges forward). Pressing scales it to
+ * 0.97 in 80ms (docs/MOTION.md §5); hover dims it slightly (pointer devices only).
+ */
 const base =
-  "group inline-flex shrink-0 items-center justify-center gap-2.5 rounded-full font-medium whitespace-nowrap transition-[opacity,scale,background-color] duration-300 ease-out-expo hover:opacity-85 active:scale-[0.97]";
+  "group inline-flex shrink-0 items-center justify-center gap-2.5 rounded-full font-medium whitespace-nowrap transition-[opacity,scale] duration-(--dur-fast) ease-out hover:opacity-85 active:scale-[0.97] active:duration-(--dur-press)";
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-ink text-white",

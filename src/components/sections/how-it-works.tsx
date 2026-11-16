@@ -2,6 +2,7 @@ import { ArrowRightIcon, MessageIcon } from "@/components/icons";
 import { ButtonLink } from "@/components/ui/button";
 import { Lead, SectionHeading } from "@/components/ui/heading";
 import { business, smsHref, telHref } from "@/content/business";
+import { stagger } from "@/lib/motion";
 
 const steps = [
   {
@@ -38,6 +39,7 @@ export function HowItWorks() {
         {steps.map((step, index) => (
           <li
             key={step.title}
+            style={stagger(index)}
             className="reveal squircle flex flex-col gap-3 rounded-tile bg-sand p-[22px] lg:rounded-panel-sm lg:p-[30px]"
           >
             <span

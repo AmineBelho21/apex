@@ -49,6 +49,14 @@ export function MobileHeader({ className }: { className?: string }) {
 
   return (
     <div ref={rootRef} className={cn("relative", className)}>
+      {/* Dims the page under the open menu; tapping it closes the menu (outside-tap handler). */}
+      <div
+        aria-hidden="true"
+        className={cn(
+          "fixed inset-x-0 top-[68px] bottom-0 bg-ink/20 transition-opacity duration-(--dur-base) ease-out",
+          open ? "opacity-100" : "pointer-events-none opacity-0",
+        )}
+      />
       <div className="flex h-[68px] items-center justify-between border-b border-line pr-3.5 pl-[18px]">
         <Logo compact />
         <div className="flex items-center gap-1.5">
@@ -78,8 +86,8 @@ export function MobileHeader({ className }: { className?: string }) {
         id={menuId}
         aria-label="Main"
         className={cn(
-          "squircle absolute inset-x-2.5 top-[76px] z-30 flex origin-top-right flex-col rounded-menu border border-line bg-white px-5 pt-2.5 pb-[18px] shadow-menu",
-          "transition-[opacity,scale,visibility] duration-300 ease-out-expo motion-reduce:transition-none",
+          "glass squircle absolute inset-x-2.5 top-[76px] z-30 flex origin-top-right flex-col overscroll-contain rounded-menu border px-5 pt-2.5 pb-[18px] shadow-menu",
+          "transition-[opacity,scale,visibility] [transition-duration:var(--dur-base),var(--dur-spring),var(--dur-base)] [transition-timing-function:var(--ease-out),var(--ease-spring),var(--ease-out)]",
           open ? "visible scale-100 opacity-100" : "invisible scale-95 opacity-0",
         )}
       >
@@ -88,10 +96,11 @@ export function MobileHeader({ className }: { className?: string }) {
             key={item.label}
             href={item.href}
             onClick={close}
-            style={{ transitionDelay: open ? `${60 + index * 35}ms` : "0ms" }}
+            // Links follow the panel in, 40ms apart (docs/MOTION.md §10).
+            style={{ transitionDelay: open ? `${40 + index * 40}ms` : "0ms" }}
             className={cn(
               "group flex min-h-[52px] items-center justify-between border-b border-line text-18 text-ink",
-              "transition-[opacity,translate] duration-500 ease-out-expo motion-reduce:transition-none",
+              "transition-[opacity,translate] duration-(--dur-base) ease-out",
               open ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0",
             )}
           >

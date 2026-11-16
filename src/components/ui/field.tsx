@@ -7,7 +7,7 @@ import { cn } from "@/lib/cn";
  */
 
 const control =
-  "w-full rounded-field border border-line bg-white px-[18px] text-16 text-ink transition-[border-color,box-shadow] duration-300 ease-out-expo hover:border-[#D8D2C8] focus:border-ink aria-invalid:border-accent";
+  "w-full rounded-field border border-line bg-white px-[18px] text-16 text-ink hover:border-[#D8D2C8] focus:border-ink aria-invalid:border-accent";
 
 export function Input({
   size = "md",

@@ -1,5 +1,6 @@
 import { business } from "@/content/business";
 import { cn } from "@/lib/cn";
+import { stagger } from "@/lib/motion";
 
 const { pricing, warranty, license } = business;
 
@@ -16,9 +17,10 @@ export function ProofStrip() {
   return (
     <section aria-label="Why book with us" className="px-page pt-9 lg:pt-16">
       <div className="grid grid-cols-2 gap-x-4 lg:-mx-6 lg:grid-cols-5 lg:gap-0">
-        {proofs.map((proof) => (
+        {proofs.map((proof, index) => (
           <div
             key={proof.title}
+            style={stagger(index)}
             className="reveal flex flex-col gap-1.5 border-t border-line py-4 lg:border-t-0 lg:border-l lg:px-6 lg:py-0"
           >
             <span

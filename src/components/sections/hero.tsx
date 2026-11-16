@@ -6,6 +6,7 @@ import { Stars } from "@/components/ui/stars";
 import { business, smsHref, telHref } from "@/content/business";
 import { bookHref } from "@/content/navigation";
 import { cn } from "@/lib/cn";
+import { stagger } from "@/lib/motion";
 
 const { ownerFirstName, pricing, warranty } = business;
 
@@ -44,11 +45,11 @@ function TextThread() {
       </div>
       <div className="flex flex-col gap-2 px-3.5 pt-3.5 pb-[18px] lg:gap-2.5 lg:px-5 lg:pt-[18px] lg:pb-[22px]">
         {thread.map((message, i) => {
-          // Messages arrive one after another, like a real thread.
-          const delay = { animationDelay: `${700 + i * 260}ms` };
+          // Messages arrive in order, 40ms apart (capped at 300ms by the `enter` utility).
+          const delay = stagger(i, "--i");
           if ("divider" in message) {
             return (
-              <span key={i} style={delay} className="rise self-center py-1 text-12 text-subtle">
+              <span key={i} style={delay} className="enter self-center py-1 text-12 text-subtle">
                 {message.divider}
               </span>
             );
@@ -59,7 +60,7 @@ function TextThread() {
               key={i}
               style={delay}
               className={cn(
-                "rise flex max-w-[82%] flex-col gap-1",
+                "enter flex max-w-[82%] flex-col gap-1",
                 mine ? "items-end self-end" : "items-start self-start",
               )}
             >
@@ -96,17 +97,17 @@ export function Hero() {
     <Panel className="mt-2 px-[18px] pt-9 pb-5 lg:mt-0 lg:py-[72px]">
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-[72px]">
         <div className="flex flex-col gap-[18px] lg:gap-[26px]">
-          <Eyebrow className="rise">{business.serviceArea}</Eyebrow>
-          <DisplayTitle className="rise [--i:1]">
+          <Eyebrow className="enter">{business.serviceArea}</Eyebrow>
+          <DisplayTitle className="enter [--i:1]">
             Fixed this week.
             <br />
             <span className="text-accent">Often same day.</span>
           </DisplayTitle>
-          <Lead className="rise max-w-[520px] [--i:2]">
+          <Lead className="enter max-w-[520px] [--i:2]">
             Fridge, washer, dryer, oven and stove, dishwasher. Owner-operated, one flat {pricing.diagnostic} diagnostic
             credited to the repair, and I tell you straight when a fix isn’t worth it.
           </Lead>
-          <div className="rise flex flex-col gap-2.5 pt-1 [--i:3] lg:flex-row">
+          <div className="enter flex flex-col gap-2.5 pt-1 [--i:3] lg:flex-row">
             <ButtonLink href={bookHref} size="xl">
               Book my repair
               <ArrowRightIcon size={17} />
@@ -116,13 +117,13 @@ export function Hero() {
               Text me what’s wrong
             </ButtonLink>
           </div>
-          <span className="rise text-14 text-muted [--i:4]">
+          <span className="enter text-14 text-muted [--i:4]">
             or call{" "}
             <a href={telHref} className="text-ink underline">
               {business.phone.display}
             </a>
           </span>
-          <a href={business.reviews.readUrl} className="rise flex items-center gap-2.5 pt-1.5 text-14 text-ink [--i:5]">
+          <a href={business.reviews.readUrl} className="enter flex items-center gap-2.5 pt-1.5 text-14 text-ink [--i:5]">
             <Stars size={16} />
             <span>
               <strong className="font-semibold">{business.reviews.rating}</strong> · {business.reviews.count} Google
@@ -130,7 +131,7 @@ export function Hero() {
             </span>
           </a>
         </div>
-        <div className="rise flex flex-col gap-3.5 [--i:2]">
+        <div className="enter flex flex-col gap-3.5 [--i:2]">
           <TextThread />
           <div className="flex flex-wrap gap-2">
             <PromiseTag>{pricing.diagnostic} diagnostic, applied to the repair</PromiseTag>

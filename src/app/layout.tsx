@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MotionRuntime } from "@/components/motion-runtime";
 import { business } from "@/content/business";
 import { bdoGrotesk } from "./fonts";
 import "./globals.css";
@@ -12,7 +13,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // data-scroll-behavior: Next jumps instantly on route changes, smooth scrolling stays for in-page anchors.
     <html lang="en" className={bdoGrotesk.variable} data-scroll-behavior="smooth">
-      <body>{children}</body>
+      <body>
+        {children}
+        <MotionRuntime />
+      </body>
     </html>
   );
 }

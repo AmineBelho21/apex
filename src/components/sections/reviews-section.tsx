@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/ui/heading";
 import { Stars } from "@/components/ui/stars";
 import { business } from "@/content/business";
 import { featuredReviews } from "@/content/reviews";
+import { stagger } from "@/lib/motion";
 
 /** Google rating card + four quoted reviews. */
 export function ReviewsSection() {
@@ -45,6 +46,7 @@ export function ReviewsSection() {
           {featuredReviews.map((review, index) => (
             <li
               key={index}
+              style={stagger(index + 1)}
               className="reveal squircle flex flex-col gap-4 rounded-card-sm border border-line bg-white p-[22px] lg:rounded-panel-sm lg:p-7"
             >
               <div className="flex items-center justify-between">

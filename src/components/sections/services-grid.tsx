@@ -6,6 +6,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Lead, SectionHeading } from "@/components/ui/heading";
 import { business, telHref } from "@/content/business";
 import { services } from "@/content/services";
+import { stagger } from "@/lib/motion";
 
 /** "Five appliances, done properly": five service cards + the dark "I keep it to five" card. */
 export function ServicesGrid({
@@ -33,13 +34,14 @@ export function ServicesGrid({
       </div>
       <div className="grid gap-3 lg:grid-cols-3 lg:gap-5">
         {services.map((service, index) => (
+          // The wrapper reveals on scroll; the card inside lifts on hover (two separate transforms).
+          <div key={service.key} className="reveal flex" style={stagger(index)}>
           <Link
-            key={service.key}
             href={service.href}
-            className="reveal group squircle flex flex-col gap-3.5 rounded-card-sm border border-line bg-white p-5 text-ink transition-[translate,box-shadow,border-color] duration-500 ease-out-expo hover:-translate-y-1 hover:border-[#D8D2C8] hover:opacity-100 hover:shadow-lift lg:gap-[18px] lg:rounded-card lg:p-[26px]"
+            className="lift group squircle flex w-full flex-col gap-3.5 rounded-card-sm border border-line bg-white p-5 text-ink lg:gap-[18px] lg:rounded-card lg:p-[26px]"
           >
             <div className="flex items-start justify-between">
-              <span className="squircle flex size-[76px] items-center justify-center rounded-tile bg-sand transition-[scale] duration-500 ease-out-expo group-hover:scale-[1.04] lg:size-[92px]">
+              <span className="squircle flex size-[76px] items-center justify-center rounded-tile bg-sand transition-[scale] duration-(--dur-base) ease-out group-hover:scale-[1.04] lg:size-[92px]">
                 <ApplianceIcon appliance={service.key} size={58} className="lg:size-[70px]" />
               </span>
               <span className="text-13 text-subtle">{String(index + 1).padStart(2, "0")}</span>
@@ -51,13 +53,14 @@ export function ServicesGrid({
                 <span className="text-17 font-medium">From {service.fromPrice}</span>
                 <span className="text-13 text-subtle">{business.pricing.diagnostic} diagnostic, applied to the repair</span>
               </span>
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-ink text-white transition-[scale] duration-300 ease-out-expo group-hover:scale-110">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-ink text-white transition-[scale] duration-(--dur-base) ease-out group-hover:scale-110">
                 <ArrowRightIcon size={17} />
               </span>
             </div>
           </Link>
+          </div>
         ))}
-        <div className="reveal squircle flex flex-col gap-4 rounded-card-sm bg-ink p-[22px] text-white lg:rounded-card lg:p-[30px]">
+        <div style={stagger(services.length)} className="reveal squircle flex flex-col gap-4 rounded-card-sm bg-ink p-[22px] text-white lg:rounded-card lg:p-[30px]">
           <p className="text-22 leading-[1.15] font-medium tracking-[-0.02em] lg:text-26">
             I keep it to five, so I do each one right.
           </p>
