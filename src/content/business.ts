@@ -43,6 +43,8 @@ export const business = {
   warranty: { label: "[90-day]", span: "[90 days]" },
   /** Proof strip: state license + refrigerant certification (canvas: "PA", "EPA 608"). */
   license: { state: "[PA]", refrigerant: "[EPA 608]" },
+  /** Who to call if someone smells gas (canvas: PGW, 215-235-1212). */
+  gasEmergency: { utility: "[GAS UTILITY]", phone: "[GAS UTILITY PHONE]" },
   smsBody: "Hi! I need an appliance repair. When can you come take a look?",
   paymentMethods: ["Card", "Venmo", "Zelle", "Cash"],
 } as const;

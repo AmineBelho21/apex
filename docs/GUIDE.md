@@ -107,7 +107,7 @@ Each step ends with lint + typecheck + build passing and the user's approval.
 0. **Setup** — Next scaffold, font, git, docs, design sources. ✅
 1. **Design system** — tokens in `globals.css`, type scale, UI kit (Button, Chip, Card, Input, Textarea, Accordion, SectionHeader), top bar, header + mobile menu, footer. ✅ Review page: `/dev/ui` (development only).
 2. **Home** — every section, desktop and mobile, matched to the canvas. ✅ Sections in `src/components/sections/` (reused by later templates). Content placeholders: canvas values in brackets (`[$89]`, `[90-day]`); the canvas's Google reviews belong to another business and are NOT reused.
-3. **Content layer** — `src/content/`: business facts (placeholders), services, problems, areas, brands, reviews, FAQs. Apex replaces the Philly identity.
+3. **Content layer** — `src/content/`: business facts (placeholders), services, problems, areas, brands, reviews, FAQs. Apex replaces the Philly identity. ✅ Copy taken from the canvas; city, prices, gas utility and areas are placeholders. Problem and area FAQs are generated (`problemFaq`, `areaFaq`); related problems come from the appliance (fixes the canvas's dishwasher page linking to fridge problems).
 4. **Templates** — service, brand, problem and area pages, statically generated; metadata, LocalBusiness JSON-LD, sitemap, robots.
 5. **Simple pages** — About, Reviews, FAQ, the 3 business pages, Warranty, Thanks, Privacy, Terms, 404.
 6. **Booking wizard (front)** — `/book`, 6 steps + branches (ZIP outside the area, not worth fixing), validation.
