@@ -14,6 +14,7 @@ Rebuilt from a design canvas originally titled "Philly Appliances Repair". The p
 - **Brand name is Apex.** Never ship "Philly Appliances Repair", "Tariq", or that business's phone, address, Google links or reviews. Every business fact comes from one file (`src/content/business.ts`, step 3). Unknown facts stay as visible placeholders; never invent them.
 - **Font:** BDO Grotesk (OFL), self-hosted in `src/app/fonts/`, weights 400/500/600 only.
 - **Accessibility as drawn:** real `<a>`, `<button>`, `<label>`; focus ring `2px #B8412A`, offset 3px.
+- **UI kit:** `src/components/ui/` (Button, Eyebrow/SectionTitle/Lead, Panel, Field, ChoiceChip, PillLink, Accordion, Stars), layout in `src/components/layout/`. Reuse before writing new markup. Layout rules and conventions: docs/GUIDE.md.
 - Only add a dependency when a step needs it, and say why.
 - Work step by step; the user approves each step. Do not commit or push unless asked.
 

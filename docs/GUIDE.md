@@ -17,6 +17,7 @@ Local copy: `_sources/canvas/project/` (gitignored). Refresh it from the canvas 
 | Stack | Next.js 16 (App Router, Turbopack), React 19, TypeScript, Tailwind CSS 4, ESLint 9, npm. |
 | Font | BDO Grotesk 400/500/600, self-hosted (`next/font/local`). It is not on Google Fonts: the canvas's Google Fonts link fails, so the canvas preview actually renders in the fallback (Helvetica Neue on a Mac). The site renders the intended face. |
 | Repo | https://github.com/AmineBelho21/apex, branch `main`. |
+| Name | "Apex Appliance Repair" (logo line "APPLIANCE REPAIR"), the usual US form, decided 2026-11-16. |
 
 ## Design tokens (from the canvas)
 
@@ -33,6 +34,24 @@ Local copy: `_sources/canvas/project/` (gitignored). Refresh it from the canvas 
 | radius | 999 (pills), 20–32px (cards), 6px (small) | |
 
 Placeholders in the design: `[PRICE]`, `[PHOTO: …]`, `[CONFIRM]`, `[CONFIRM: cut-off time]`.
+
+## Layout rules (step 1)
+
+The canvas only draws 1440 and 390. In between:
+
+- **Type and spacing** switch from the mobile to the desktop values at `lg` (1024px).
+- **Header**: the desktop header (top bar, centered nav) needs ~1100px, so it shows from `xl` (1280px). Below that: the mobile header and menu. The top bar exists on desktop only, as drawn.
+- **Page column**: 1200px. `px-page` = 20px on phones, then `max(32px, (100% − 1200px) / 2)`, which gives the canvas's 120px sides at 1440. Inset panels (`Panel`, footer) sit 8px / 16px from the edge and line up with the same column.
+- **Footer**: the mobile canvas has no "For business" column, so it is hidden below `lg`.
+- **Squircle corners** (`corner-shape: squircle`) as in the canvas; browsers without support show plain rounded corners.
+- **Additions the canvas doesn't draw**: field error state (accent border + 13px accent message), disabled buttons (50% opacity), focus ring on the newsletter pill, "Skip to content" link, and a Services dropdown in the desktop header (the canvas draws the chevron but no menu; decided 2026-11-16).
+
+## Code conventions
+
+- Tokens only: the default Tailwind palette and type scale are switched off. Sizes are named in px (`text-15`, `text-52`).
+- Business facts: `src/content/business.ts`. Navigation: `src/content/navigation.ts`.
+- `cn()` doesn't merge conflicting classes. To override a utility a component sets, mark it important: `px-[18px]!`.
+- Internal links go through `SmartLink` / `ButtonLink` (next/link); `tel:`, `sms:` and external links stay plain anchors.
 
 ## Page inventory → routes
 
@@ -72,7 +91,7 @@ Until step 7, forms validate on the client and do not send anything.
 Each step ends with lint + typecheck + build passing and the user's approval.
 
 0. **Setup** — Next scaffold, font, git, docs, design sources. ✅
-1. **Design system** — tokens in `globals.css`, type scale, UI kit (Button, Chip, Card, Input, Textarea, Accordion, SectionHeader), top bar, header + mobile menu, footer.
+1. **Design system** — tokens in `globals.css`, type scale, UI kit (Button, Chip, Card, Input, Textarea, Accordion, SectionHeader), top bar, header + mobile menu, footer. ✅ Review page: `/dev/ui` (development only).
 2. **Home** — every section, desktop and mobile, matched to the canvas.
 3. **Content layer** — `src/content/`: business facts (placeholders), services, problems, areas, brands, reviews, FAQs. Apex replaces the Philly identity.
 4. **Templates** — service, brand, problem and area pages, statically generated; metadata, LocalBusiness JSON-LD, sitemap, robots.

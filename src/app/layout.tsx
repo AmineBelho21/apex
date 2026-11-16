@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
+import { business } from "@/content/business";
 import { bdoGrotesk } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Apex Appliance Repair",
+  title: business.legalName,
   description: "Owner-operated appliance repair. Flat diagnostic credited to the repair, 90-day warranty.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${bdoGrotesk.variable} antialiased`}>
+    <html lang="en" className={bdoGrotesk.variable}>
       <body>{children}</body>
     </html>
   );

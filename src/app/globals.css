@@ -1,13 +1,96 @@
 @import "tailwindcss";
 
-/* Step 0: font and page basics only. The full token set (colors, radii, type scale) lands in step 1. */
+/*
+ * Design tokens, read from the canvas (_sources/canvas/project). The default Tailwind palette and
+ * type scale are switched off so only these values can be used.
+ */
+@theme {
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-ink: #111111; /* text, primary buttons, dark panels */
+  --color-sand: #f4f1eb; /* tinted panels, soft buttons, icon wells */
+  --color-line: #e3ded4; /* borders and dividers on light */
+  --color-muted: #57534e; /* body copy */
+  --color-subtle: #6b665f; /* secondary labels, timestamps */
+  --color-accent: #b8412a; /* dots, highlights, stars, focus ring */
+  --color-accent-tint: #f7e6df; /* warning note background */
+  /* On ink (#111111) surfaces */
+  --color-on-ink-soft: #d8d2c8; /* top bar text */
+  --color-on-ink-muted: #c9c2b8; /* footer copy */
+  --color-on-ink-subtle: #bdb6ac; /* logo line on ink */
+  --color-on-ink-faint: #a9a197; /* footer column titles, legal line */
+
+  --text-*: initial;
+  --text-9: 9px;
+  --text-11: 11px;
+  --text-12: 12px;
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-15: 15px;
+  --text-16: 16px;
+  --text-17: 17px;
+  --text-18: 18px;
+  --text-19: 19px;
+  --text-20: 20px;
+  --text-21: 21px;
+  --text-22: 22px;
+  --text-26: 26px;
+  --text-30: 30px;
+  --text-32: 32px;
+  --text-36: 36px;
+  --text-44: 44px;
+  --text-52: 52px;
+  --text-76: 76px;
+
+  --radius-badge: 6px;
+  --radius-field: 16px;
+  --radius-tile: 22px;
+  --radius-menu: 24px;
+  --radius-card-sm: 24px;
+  --radius-card: 30px;
+  --radius-panel-sm: 28px;
+  --radius-footer: 36px;
+  --radius-panel: 40px;
+
+  --shadow-menu: 0 24px 60px rgb(17 17 17 / 0.14);
+  --shadow-float: 0 30px 70px rgb(17 17 17 / 0.08);
+}
+
 @theme inline {
   --font-sans: var(--font-bdo-grotesk);
 }
 
-body {
-  margin: 0;
-  background: #ffffff;
-  color: #111111;
-  font-family: var(--font-sans);
+/* The canvas draws panels and cards with squircle corners. Browsers without support keep plain rounded corners. */
+@utility squircle {
+  corner-shape: squircle;
+}
+
+/*
+ * Horizontal page gutter: 20px on phones, then a 1200px content column (= the canvas's 120px sides at 1440).
+ * Panels inset 16px from the viewport use their own variant of this (see components/ui/panel.tsx).
+ */
+@utility px-page {
+  padding-inline: 20px;
+  @media (width >= 64rem) {
+    padding-inline: max(32px, calc((100% - 1200px) / 2));
+  }
+}
+
+@layer base {
+  body {
+    background: var(--color-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a:hover {
+    opacity: 0.85;
+  }
+  button {
+    cursor: pointer;
+  }
+  :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
 }
