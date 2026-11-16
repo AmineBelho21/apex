@@ -9,6 +9,7 @@ import { Stars } from "@/components/ui/stars";
 import { business, smsHref } from "@/content/business";
 import { bookHref } from "@/content/navigation";
 import type { ApplianceKey } from "@/content/services";
+import { cn } from "@/lib/cn";
 
 /**
  * Hero of the service, problem, area and brand pages: sand panel, breadcrumb, eyebrow,
@@ -21,16 +22,27 @@ export function PageHero({
   title,
   intro,
   aside,
+  actions = true,
+  narrowAside = false,
 }: {
   crumbs: Crumb[];
   eyebrow: ReactNode;
   title: ReactNode;
   intro: ReactNode;
   aside: ReactNode;
+  /** Book / Text buttons and the rating line (off on About and the business pages). */
+  actions?: boolean;
+  /** 380px aside (Reviews page) instead of the 1.1 / 0.9 split. */
+  narrowAside?: boolean;
 }) {
   return (
     <Panel className="mt-2 px-[18px] py-8 lg:mt-0 lg:py-16">
-      <div className="grid gap-7 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center lg:gap-16">
+      <div
+        className={cn(
+          "grid gap-7 lg:items-center lg:gap-16",
+          narrowAside ? "lg:grid-cols-[minmax(0,1fr)_380px]" : "lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]",
+        )}
+      >
         <div className="flex flex-col gap-4 lg:gap-6">
           <div className="enter">
             <Breadcrumb items={crumbs} />
@@ -38,6 +50,8 @@ export function PageHero({
           <Eyebrow className="enter [--i:1]">{eyebrow}</Eyebrow>
           <h1 className="enter text-[40px] leading-none font-medium tracking-[-0.04em] [--i:2] lg:text-[64px]">{title}</h1>
           <Lead className="enter max-w-[540px] [--i:3]">{intro}</Lead>
+          {actions ? (
+            <>
           <div className="enter flex flex-col gap-2.5 [--i:4] lg:flex-row">
             <ButtonLink href={bookHref} size="xl">
               Book a repair
@@ -55,6 +69,8 @@ export function PageHero({
               reviews · Every job backed {business.warranty.span}
             </span>
           </a>
+            </>
+          ) : null}
         </div>
         <div className="enter [--i:3]">{aside}</div>
       </div>

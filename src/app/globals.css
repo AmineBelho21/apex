@@ -14,6 +14,8 @@
   --color-subtle: #6b665f; /* secondary labels, timestamps */
   --color-accent: #b8412a; /* dots, highlights, stars, focus ring */
   --color-accent-tint: #f7e6df; /* warning note background */
+  --color-success: #2f6b45; /* confirmation check (Thanks page) */
+  --color-success-tint: #e5f0e8;
   /* On ink (#111111) surfaces */
   --color-on-ink-soft: #d8d2c8; /* top bar text */
   --color-on-ink-muted: #c9c2b8; /* footer copy */

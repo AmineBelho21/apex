@@ -15,6 +15,8 @@ export const business = {
   /** Footer blurb. Canvas: "Owner-operated appliance repair in Philadelphia and the Main Line." */
   blurb: "Owner-operated appliance repair in [SERVICE AREA].",
   ownerFirstName: "[OWNER]",
+  /** About page: "I’m <full name>." */
+  ownerFullName: "[OWNER FULL NAME]",
   /** Letter in the owner's round avatar (canvas: "T"). */
   ownerInitial: "[O]",
   /** City, for lines like "Why [CITY] keeps calling" (canvas: "Philly"). */
@@ -25,6 +27,8 @@ export const business = {
   hours: "[HOURS]",
   /** Canvas: "Philadelphia & the Main Line". */
   serviceArea: "[SERVICE AREA]",
+  /** About page stat (canvas: "N 20th St · The shop, in North Philadelphia."). */
+  shop: { street: "[SHOP STREET]", area: "[SHOP NEIGHBORHOOD]" },
   /** Canvas: "1431 N 20th St, Philadelphia, PA 19121". */
   address: "[STREET], [CITY], [STATE] [ZIP]",
   /** Canvas: 4.8 · 219 Google reviews. */
@@ -42,7 +46,8 @@ export const business = {
   },
   warranty: { label: "[90-day]", span: "[90 days]" },
   /** Proof strip: state license + refrigerant certification (canvas: "PA", "EPA 608"). */
-  license: { state: "[PA]", refrigerant: "[EPA 608]" },
+  license: { state: "[PA]", stateName: "[STATE]", refrigerant: "[EPA 608]" },
+  email: "[EMAIL]",
   /** Who to call if someone smells gas (canvas: PGW, 215-235-1212). */
   gasEmergency: { utility: "[GAS UTILITY]", phone: "[GAS UTILITY PHONE]" },
   smsBody: "Hi! I need an appliance repair. When can you come take a look?",

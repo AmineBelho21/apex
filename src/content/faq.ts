@@ -33,3 +33,25 @@ export const generalFaq: FaqItem[] = [
     answer: `It comes down to what the machine is worth, not to what broke. I’ll tell you which side you’re on before you spend anything, because a ${pricing.diagnostic} visit on a machine that’s finished is no good for you or for me.`,
   },
 ];
+
+/** The FAQ page: the home questions plus four more (canvas: FAQ). */
+export const faqPage: FaqItem[] = [
+  ...generalFaq,
+  {
+    question: "What appliances do you repair?",
+    answer:
+      "Five major appliances: refrigerators, washers, dryers, ovens and stoves, and dishwashers. I don’t service small appliances or microwaves.",
+  },
+  {
+    question: "Are you licensed?",
+    answer: `Owner-operated shop, licensed in ${business.license.stateName} and ${business.license.refrigerant} for refrigerant work.`,
+  },
+  {
+    question: "Do you offer fixed price appliance repair?",
+    answer: `The ${pricing.diagnostic} diagnostic is fixed and comes off the repair. The repair gets a fixed price too, once the machine has been seen, before any work.`,
+  },
+  {
+    question: "What areas do you cover?",
+    answer: `All of ${business.serviceArea}. Same-week, often same-day.`,
+  },
+];

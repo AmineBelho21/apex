@@ -113,3 +113,10 @@ export const PinIcon = (p: IconProps) => (
     <circle cx="12" cy="9.5" r="2.5" />
   </StrokeIcon>
 );
+
+export const ShieldCheckIcon = (p: IconProps) => (
+  <StrokeIcon {...p}>
+    <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />
+    <path d="M8.5 12l2.5 2.5 4.5-5" />
+  </StrokeIcon>
+);
