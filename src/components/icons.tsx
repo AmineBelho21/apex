@@ -78,3 +78,34 @@ export function StarIcon({ size = 12, className }: IconProps) {
     </svg>
   );
 }
+
+export const CheckIcon = (p: IconProps) => (
+  <svg
+    width={p.size ?? 14}
+    height={p.size ?? 14}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    className={p.className}
+  >
+    <path d="M5 12.5l4.5 4.5L19 7.5" />
+  </svg>
+);
+
+export const ClockIcon = (p: IconProps) => (
+  <StrokeIcon {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 2" />
+  </StrokeIcon>
+);
+
+export const PinIcon = (p: IconProps) => (
+  <StrokeIcon {...p}>
+    <path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" />
+    <circle cx="12" cy="9.5" r="2.5" />
+  </StrokeIcon>
+);

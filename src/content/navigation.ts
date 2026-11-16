@@ -2,6 +2,8 @@
  * Site navigation. Routes are provisional until step 4 (see docs/GUIDE.md, page inventory);
  * most of them 404 until their step lands.
  */
+import { areaHref, featuredAreas } from "./areas";
+
 export type NavLink = { label: string; href: string };
 
 /** The five appliances: header Services menu and footer column. */
@@ -46,12 +48,8 @@ export const footerColumns: FooterColumn[] = [
   },
   {
     title: "Service areas",
-    // PLACEHOLDER: the four featured areas come from the content layer (step 3).
     links: [
-      { label: "[Area 1]", href: "/#areas" },
-      { label: "[Area 2]", href: "/#areas" },
-      { label: "[Area 3]", href: "/#areas" },
-      { label: "[Area 4]", href: "/#areas" },
+      ...featuredAreas.slice(0, 4).map((area) => ({ label: area.name, href: areaHref(area.slug!) })),
       { label: "All areas", href: "/#areas" },
     ],
   },

@@ -1,12 +1,21 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-/** Small pill above section titles: white, hairline border, accent dot. */
-export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
+/** Small pill above section titles: white, hairline border, accent dot. `ink` = on a dark panel. */
+export function Eyebrow({
+  children,
+  tone = "light",
+  className,
+}: {
+  children: ReactNode;
+  tone?: "light" | "ink";
+  className?: string;
+}) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 self-start rounded-full border border-line bg-white px-3.5 py-[7px] text-13 font-medium tracking-[0.02em] text-ink",
+        "inline-flex items-center gap-2 self-start rounded-full border px-3.5 py-[7px] text-13 font-medium tracking-[0.02em]",
+        tone === "light" ? "border-line bg-white text-ink" : "border-white/14 bg-white/8 text-white",
         className,
       )}
     >

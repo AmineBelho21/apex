@@ -15,6 +15,10 @@ export const business = {
   /** Footer blurb. Canvas: "Owner-operated appliance repair in Philadelphia and the Main Line." */
   blurb: "Owner-operated appliance repair in [SERVICE AREA].",
   ownerFirstName: "[OWNER]",
+  /** Letter in the owner's round avatar (canvas: "T"). */
+  ownerInitial: "[O]",
+  /** City, for lines like "Why [CITY] keeps calling" (canvas: "Philly"). */
+  city: "[CITY]",
   /** Canvas format: "267-388-3044". */
   phone: { display: "555-555-0100", digits: "5555550100" },
   /** Canvas: "Mon–Fri, 9am–6pm". */
@@ -30,6 +34,15 @@ export const business = {
     readUrl: "#",
     writeUrl: "#",
   },
+  /** Pricing and promises. Canvas values shown in the brackets until confirmed. */
+  pricing: {
+    diagnostic: "[$89]",
+    /** "Most repairs start from …" in the FAQ. */
+    typicalFrom: "[$250]",
+  },
+  warranty: { label: "[90-day]", span: "[90 days]" },
+  /** Proof strip: state license + refrigerant certification (canvas: "PA", "EPA 608"). */
+  license: { state: "[PA]", refrigerant: "[EPA 608]" },
   smsBody: "Hi! I need an appliance repair. When can you come take a look?",
   paymentMethods: ["Card", "Venmo", "Zelle", "Cash"],
 } as const;
